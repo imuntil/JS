@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+<p id="time"></p>
+<a id="stop-watch">stopwatch</a>
+<br>
+<a id="ceshi">,,,,,,</a>
+<script>
+    window.requestAnimFrame = (function(callback){
+        return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback){
+                    window.setTimeout(callback, 1000/60);
+                };
+    })();
+
+    var Stopwatch = function(time, elem) {
+        this.totalTime = time;
+        this.running = false;
+        this.startTime = undefined;
+        this.elapsed = undefined;
+        this.elem = elem;
+        this.endCallback = function(){};
+    };
+
+    Stopwatch.prototype.start = function() {
+        var that = this;
+        that.running = true;
+        requestAnimFrame(that.run.bind(that));
+    };
+
+    Stopwatch.prototype.run = function(time) {
+        if (this.running) {
+
+            if (this.startTime == undefined) {
+                this.startTime = time;
+            }
+
+            this.showTime(time);
+
+            requestAnimFrame(this.run.bind(this));
+        }
+    };
+
+    Stopwatch.prototype.pause = function() {
+        this.running = false;
+        this.totalTime -= this.elapsed;
+        this.startTime = undefined;
+    };
+
+    Stopwatch.prototype.isRunning = function() {
+        return this.running;
+    };
+
+    Stopwatch.prototype.showTime = function(time) {
+        this.elapsed = time - this.startTime;
+
+        var remain = this.totalTime - this.elapsed;
+        if (remain < 0) {
+            this.running = false;
+            if (this.endCallback) {
+                this.endCallback();
+            }
+            return;
+        }
+        this.elem.innerHTML = (remain/1000).toFixed(0)+'s';
+    };
+
+    Stopwatch.prototype.setEndCallback = function(callback) {
+        if (Object.prototype.toString.call(callback).slice(8, -1) == 'Function') {
+            this.endCallback = callback;
+        }
+    }
+
+
+</script>
+<script>
+    var t = true;
+    var sw = new Stopwatch(5*1000, document.getElementById('time'));
+    sw.setEndCallback(function(){alert('end')});
+    document.getElementById('stop-watch').addEventListener('click', function() {
+        if (t) {
+            sw.start();
+        } else {
+            sw.pause();
+        }
+        t = !t;
+    }, false);
+
+
+    var ceshi = new Stopwatch(6*1000, document.getElementById('time'));
+    document.getElementById('ceshi').addEventListener('click', function() {
+        if (t) {
+            ceshi.start();
+        } else {
+            ceshi.pause();
+        }
+        t = !t;
+    }, false);
+</script>
+</body>
+</html>

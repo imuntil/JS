@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用分支技术创建XHR对象</title>
+    <!--<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>-->
+    <!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>-->
+    <script>
+        var SimpleXhrFactory = (function() {
+            var standard = {
+                createXhrObject: function() {
+                    return new XMLHttpRequest();
+                }
+            };
+            var activeXNew = {
+                createXhrObject: function() {
+                    return new ActiveXObject('Msxml2.XMLHTTP');
+                }
+            };
+            var activeXOld = {
+                createXhrObject: function() {
+                    return new ActiveXObject('Microsoft.XMLHTTP');
+                }
+            };
+
+            var testObject;
+
+            try{
+                testObject = standard.createXhrObject();
+                return testObject;
+            }
+            catch (e) {
+                try {
+                    testObject = activeXNew.createXhrObject();
+                    return testObject;
+                }
+                catch (e) {
+                    try {
+                        testObject = activeXOld.createXhrObject();
+                        return testObject;
+                    }
+                    catch (e) {
+                        throw new Error('No XHR object found in this environment.');
+                    }
+                }
+            }
+
+        })();
+
+        var text = SimpleXhrFactory;
+
+    </script>
+</head>
+<body>
+<p style="color: deepskyblue">分支技术并不总是更高效的选择。下面的例子中，有三个对象被创建并被保存在内存中，但是派上用场的只有一个。</p>
+<p style="color: deepskyblue">在考虑是否使用这种技术的时候，你必须在缩短计算时间<span style="color: deeppink">(因为判断使用哪个对象的代码只会执行一次)</span>和占用更多内存这一利一弊之间权衡一下</p>
+<pre style="color: slateblue">
+        var SimpleXhrFactory = (function() {
+            var standard = {
+                createXhrObject: function() {
+                    return new XMLHttpRequest();
+                }
+            };
+            var activeXNew = {
+                createXhrObject: function() {
+                    return new ActiveXObject('Msxml2.XMLHTTP');
+                }
+            };
+            var activeXOld = {
+                createXhrObject: function() {
+                    return new ActiveXObject('Microsoft.XMLHTTP');
+                }
+            };
+
+            var testObject;
+
+            try{
+                testObject = standard.createXhrObject();
+                return testObject;
+            }
+            catch (e) {
+                try {
+                    testObject = activeXNew.createXhrObject();
+                    return testObject;
+                }
+                catch (e) {
+                    try {
+                        testObject = activeXOld.createXhrObject();
+                        return testObject;
+                    }
+                    catch (e) {
+                        throw new Error('No XHR object found in this environment.');
+                    }
+                }
+            }
+
+        })();
+
+        var text = SimpleXhrFactory;
+</pre>
+</body>
+</html>

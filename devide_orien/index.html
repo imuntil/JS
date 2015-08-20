@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title> 横竖屏测试网页 </title>
+    <script type="text/javascript">
+
+        // Detect whether device supports orientationchange event, otherwise fall back to
+        // the resize event.
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+
+        // 监听事件
+        window.addEventListener(orientationEvent, function() {
+            var ua = navigator.userAgent;
+            var deviceType="";
+
+            //判断设备类型
+
+            if (ua.indexOf("iPad") > 0) {
+                deviceType = "isIpad";
+            } else if (ua.indexOf("Android") > 0) {
+                deviceType = "isAndroid";
+            } else {
+                alert("既不是ipad，也不是安卓！");
+                return;
+            }
+
+
+            // 判断横竖屏
+
+            if ("isIpad" == deviceType) {
+                if (Math.abs(window.orientation) == 90) {
+                    alert("我是ipad的横屏");
+                } else {
+                    alert("我是ipad的竖屏");
+                }
+            } else if ("isAndroid" == deviceType ) {
+                if (Math.abs(window.orientation) != 90) {
+                    alert("我是安卓的横屏");
+                } else {
+                    alert("我是安卓的竖屏");
+                }
+            }
+        }, false);
+    </script>
+</head>
+
+
+<body>
+横竖屏测试网页
+</body>
+</html>  

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>-->
+    <script>
+        $(function() {
+            //是否有机会使用跨域请求
+            var supportsCORS = (new XMLHttpRequest()).withCredentials !== undefined;
+
+            function mouseoverHandler(e) {
+
+                console.log('mouseover');
+
+                var link = e.target || e.srcElement;
+                var url = link.href;
+
+                console.log(url);
+
+                var xhr = new XMLHttpRequest();//新请求
+                console.log('xhr');
+                xhr.open("GET",url);//仅仅询问头信息
+                console.log('open');
+                xhr.onreadystatechange = function() {
+                    console.log('change');
+                    console.log(xhr.readyState);
+                    //事件处理程序
+                    if (xhr.readyState !== 4) return;//忽略未完成的请求
+                    if (xhr.status === 200) {
+                        //如果成功,获取连接的详细情况
+                        var type = xhr.getResponseHeader('Content-Type');
+                        var size = xhr.getResponseHeader('Content-Length');
+                        var date = xhr.getResponseHeader('Lase-Modified');
+                        //在工具提示中显示详细信息
+                        link.title = '类型：' + type + '\n' + '大小：' + size +'\n' + '时间：' + date;
+                    } else {
+                        //如果请求失败，且链接没有’站外链接‘的工具提示，显示错误
+                        if (!link.title) {
+                            link.title = "Couldn't fetch detials:\n" + xhr.status + ' ' + xhr.statusText;
+                        }
+                    };
+                    console.log('send');
+                    xhr.send(null);
+
+                    //移除处理程序，仅想获取一次头信息
+                    if (link.removeEventListener) {
+                        link.removeEventListener('mouseover', mouseoverHandler, false);
+                    } else {
+                        link.detachEvent('onmousevoer', mouseoverHandler);
+                    }
+                }
+            }
+
+
+            //遍历文档中的所有链接
+            var links = document.getElementsByTagName('a');
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                if (!link.href) continue;
+                if (link.title) continue;
+
+                //如果是一个跨域链接
+                if (link.host !== location.host || link.protocol !== location.protocol) {
+                    link.title = '站外链接';
+                    if (!supportsCORS) continue;//如果没有CORS支持就退出
+                    //否则，我们能了解这个链接的更多信息
+
+                    //注册时间处理程序，当鼠标悬停时下载链接的详细信息
+                    if(link.addEventListener) {
+                        link.addEventListener('mouseover', mouseoverHandler, false);
+                    } else {
+                        link.attachEvent('onmouseover', mouseoverHandler);
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<a href="http://www.baidu.com">baidu</a>
+</body>
+</html>
