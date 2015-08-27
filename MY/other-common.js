@@ -80,6 +80,12 @@ commons.PraMethod.isWeichatBro = function() {
 };
 
 //分享到微博
+/**
+ *
+ * @param sns : sina or tencent
+ * @param para {title:String(分享title), desc:String(分享内容), url:String(分享地址), pic:String(图片地址)}
+ * @constructor
+ */
 commons.PraMethod.shareToWeibo = function(sns, para) {
 
     var _pre = sns == 'sina' ?
