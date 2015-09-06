@@ -3,7 +3,7 @@
  */
 
 var Q = (function() {
-    var qs = (location.search.length > 0 ? location.search.substring(1) : '');
+    var qs = (location.search.length > 0 ? decodeURIComponent(location.search.substring(1)) : '');
 
     var args = {};
 
