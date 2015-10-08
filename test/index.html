@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="../MY/other-common.js"></script>
+</head>
+<body>
+
+<script>
+    var data = {
+        msg:{
+            Uinfo:{
+                subscribe:1
+            }
+        }
+    };
+    commons.PraMethod.localStorage('login.response.data',data);
+    try {
+        var _data = commons.PraMethod.localStorage('login.response.data');
+        var _sub = undefined;
+        if (_data && _data.msg.Uinfo.subscribe) {
+            _sub = _data.msg.Uinfo.subscribe;
+        } else {
+            throw new Error('no data');
+        }
+        if (_sub == 1) {
+            console.log(_sub);
+//            $('body').attr('is-sub',_sub);
+        } else {
+            throw new Error('sub != 1');
+        }
+    } catch (e) {
+        console.log(e);
+    }
+</script>
+
+</body>
+</html>
