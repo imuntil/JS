@@ -35,5 +35,21 @@
     }
 </script>
 
+<script>
+    var event = document.createEvent('Event');
+    event.initEvent('gotopenid', true, true);
+    event.openid = '1234567890';
+
+
+    document.querySelector('body').addEventListener('gotopenid', function (e) {
+        console.log(e.openid);
+    });
+
+
+    setTimeout(function () {
+        document.querySelector('body').dispatchEvent(event);
+    }, 2000);
+</script>
+
 </body>
 </html>
