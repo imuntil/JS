@@ -149,9 +149,9 @@ commons.PraMethod.localStorage = function(key, obj) {
         throw new Error('wrong key !!!');
     }
 
-    if (obj) {
+    if (obj !== undefined && obj !== null) {
         l.removeItem(key);
-        if (obj == true) {
+        if (obj === true) {
             return;
         }
         if (typeof obj != 'object') {
