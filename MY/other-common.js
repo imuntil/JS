@@ -79,6 +79,15 @@ commons.PraMethod.isWeichatBro = function() {
     return false;
 };
 
+//移动浏览器
+commons.PraMethod.isMobileBro = function () {
+    var device = navigator.userAgent.toLowerCase();
+    if (device.indexOf('mobile') === -1) {
+        return false;
+    }
+    return true;
+};
+
 //分享到微博
 /**
  *

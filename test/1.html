@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var a = {x:1, y:2};
+    function clone(a) {
+        var b = {};
+        for (var key in a) {
+            b[key] = a[key];
+        }
+        return b;
+    }
+    var b = clone(a);
+    b.x = 10;
+    console.log(a);
+</script>
+</body>
+</html>
