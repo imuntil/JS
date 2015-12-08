@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="div" style="background-color: black;width: 100px;height: 100px;position: absolute;"></div>
+<script>
+    /**
+
+     * @deprecated 移动div的方法
+
+     * @param{id} id 要移动的层ID
+
+     */
+    var Move=function(id)
+
+    {
+
+        var o=document.getElementById(id);
+
+
+
+        o.onselectstart = function()
+
+        {
+
+            return(false);
+
+        };
+
+
+
+        o.onmousedown = function(e) {
+
+            e = e||window.event;
+
+//            var x=e.layerX||e.offsetX;
+
+            var y=e.layerY||e.offsetY;
+
+//            x=x-document.body.scrollLeft;
+
+            y=y-document.body.scrollTop;
+
+            document.onmousemove = function(e)
+
+            {
+
+                e=e||window.event;
+
+//                o.style.left=(e.clientX-x)+"px";
+
+                o.style.top=(e.clientY-y)+"px";
+
+            };
+
+
+
+            document.onmouseup=function()
+
+            {
+
+                document.onmousemove=null;
+
+            };
+
+        };
+
+    }
+    Move('div');
+</script>
+</body>
+</html>
