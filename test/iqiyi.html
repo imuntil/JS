@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title></title>
+
+    <script>
+
+        function aa() {
+
+            var data = encodeURIComponent('{"title": "测试标题","text": "测试内容","url":"http://www.baidu.com","pic":"http://pic6.qiyipic.com/common/20150212/476a687f919d4546bccd8ce9a3a3c7f8.png"}');
+
+            url = 'iqiyi://share?p=wx&t=1&d=' + data;
+
+            window.location.href = url;
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+<a href="javascript:aa();"  style="font-size:300px">分享</a><br>
+
+</body>
+
+</html>
